@@ -12,21 +12,21 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column
     public Long id;
 
-    @Column(name = "user_firstname")
+    @Column
     public String firstname;
 
-    @Column(name = "user_lastname")
+    @Column
     public String lastname;
 
-    @Column(name = "user_mail")
-    public String mail;
+    @Column
+    public String email;
 
-    @Column(name = "user_telephone")
+    @Column
     public String telephone;
 
-    @Column(name = "user_address")
+    @Column
     public String address;
 }
