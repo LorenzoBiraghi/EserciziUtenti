@@ -3,6 +3,7 @@ package com.esercizio.utenti.controller;
 import com.esercizio.utenti.entity.User;
 import com.esercizio.utenti.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
+    @Lazy
     @Autowired
     UserRepository userRepository;
 
