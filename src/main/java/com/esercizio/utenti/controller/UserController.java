@@ -10,22 +10,43 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * RestController of  user
+ *
+ * @author lorenzoBiraghi
+ */
 @RestController
+/**
+ * Annotation for map this controller
+ */
 @RequestMapping("/users")
 public class UserController {
-
+    /**
+     * Annotation that pick the User's JpaRepository with queries
+     */
     @Autowired
-    UserRepository userIterface;
+    UserRepository userRepository;
+
+    /**
+     * Get all users from database
+     * @return List of User
+     */
 
     @GetMapping("/")
     public ResponseEntity<?> getAllUsers(){
-        List<User> users = userIterface.findAll();
+        List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
+    /**
+     * Find a user by his id
+     * @param id of user
+     * @return User with this id
+     */
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id){
-        Optional<User> user = userIterface.findById(id);
+        Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
             return ResponseEntity.ok(user);
         }
@@ -34,17 +55,29 @@ public class UserController {
         }
     }
 
+    /**
+     * Add a new User
+     * @param user the User object you want to add
+     * @return the User that you add
+     */
     @PostMapping("/")
     public ResponseEntity<?> addNewUser(@RequestBody User user){
-        userIterface.save(user);
+        userRepository.save(user);
         return ResponseEntity.ok(user);
     }
 
+    /**
+     * update a User
+     * @param user the User object you want to update
+     * @param id the user's id that you want update
+     * @return the User that you update
+     */
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUserById(@RequestBody User user, @PathVariable Long id){
-        Optional<User> userOptional = userIterface.findById(id);
+        Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()){
-            userIterface.save(user);
+            userRepository.save(user);
             return ResponseEntity.ok(user);
         }
         else{
@@ -53,17 +86,27 @@ public class UserController {
 
     }
 
+    /**
+     * Delete all users on database
+     * @return void
+     */
+
     @DeleteMapping("/")
     public ResponseEntity<?> deleteAllUsers(){
-        userIterface.deleteAll();
+        userRepository.deleteAll();
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Delete a user by his id
+     * @param id the user's id that you want delete
+     * @return void
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id){
-        Optional<User> userOptional = userIterface.findById(id);
+        Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()){
-            userIterface.deleteById(id);
+            userRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         else{
