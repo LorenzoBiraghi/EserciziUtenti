@@ -1,5 +1,7 @@
-package com.esercizio.utenti;
+package com.esercizio.utenti.controller;
 
+import com.esercizio.utenti.entity.User;
+import com.esercizio.utenti.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    UserIterface userIterface;
+    UserRepository userIterface;
 
     @GetMapping("/")
     public ResponseEntity<?> getAllUsers(){

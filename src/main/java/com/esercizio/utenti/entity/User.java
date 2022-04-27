@@ -1,4 +1,4 @@
-package com.esercizio.utenti;
+package com.esercizio.utenti.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -15,18 +15,15 @@ public class User {
     @Column
     public Long id;
 
-    @Column
+    @Column(length = 25, nullable = false)
     public String firstname;
 
-    @Column
+    @Column(length = 25, nullable = false)
     public String lastname;
 
-    @Column
+    @Column(length = 50, nullable = true)
     public String email;
 
-    @Column
+    @Column(length = 10, nullable = true)
     public String telephone;
-
-    @Column
-    public String address;
 }
