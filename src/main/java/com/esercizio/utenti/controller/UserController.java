@@ -16,14 +16,9 @@ import java.util.Optional;
  * @author lorenzoBiraghi
  */
 @RestController
-/**
- * Annotation for map this controller
- */
 @RequestMapping("/users")
 public class UserController {
-    /**
-     * Annotation that pick the User's JpaRepository with queries
-     */
+
     @Autowired
     UserRepository userRepository;
 
@@ -67,7 +62,7 @@ public class UserController {
     }
 
     /**
-     * update a User
+     * Update a User
      * @param user the User object you want to update
      * @param id the user's id that you want update
      * @return the User that you update
