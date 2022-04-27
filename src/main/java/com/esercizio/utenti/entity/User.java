@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +27,10 @@ public class User {
 
     @Column(length = 10, nullable = true)
     public String telephone;
+
+    @ManyToMany
+    @JoinTable(name = "users_addresses", joinColumns =
+    @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns =
+    @JoinColumn(name = "address_id", referencedColumnName = "id"))
+    public List<Address> addresses;
 }
