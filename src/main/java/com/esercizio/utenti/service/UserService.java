@@ -31,8 +31,15 @@ public class UserService {
      * @param id user's id
      * @return Optional User object
      */
-    public Optional<User> findById(Long id){
-        return userRepository.findById(id);
+    public User findById(Long id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            return user.get();
+        }
+        else{
+            return null;
+        }
+
     }
 
     /**

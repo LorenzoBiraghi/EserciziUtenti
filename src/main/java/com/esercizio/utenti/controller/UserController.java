@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * RestController of  user
@@ -31,7 +31,7 @@ public class UserController {
 
     @ApiResponse(description = "get users",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @GetMapping("/")
-    public ResponseEntity<?> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers(){
         List<User> users = userService.findAll();
         return ResponseEntity.ok(users);
     }
@@ -44,13 +44,13 @@ public class UserController {
 
     @ApiResponse(description = "get user",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id){
-        Optional<User> user = userService.findById(id);
-        if(user.isPresent()){
+    public ResponseEntity<User> getUserById(@PathVariable Long id){
+        User user = userService.findById(id);
+        if(user != null){
             return ResponseEntity.ok(user);
         }
         else{
-            return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -62,7 +62,7 @@ public class UserController {
 
     @ApiResponse(description = "added user",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @PostMapping("/")
-    public ResponseEntity<?> addNewUser(@RequestBody User user){
+    public ResponseEntity<User> addNewUser(@Valid @RequestBody User user){
         userService.save(user);
         return ResponseEntity.ok(user);
     }
@@ -76,14 +76,14 @@ public class UserController {
 
     @ApiResponse(description = "get user updated",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUserById(@RequestBody User user, @PathVariable Long id){
-        Optional<User> userOptional = userService.findById(id);
-        if (userOptional.isPresent()){
+    public ResponseEntity<User> updateUserById(@RequestBody User user, @PathVariable Long id){
+        User userOptional = userService.findById(id);
+        if (userOptional!= null){
             userService.save(user);
             return ResponseEntity.ok(user);
         }
         else{
-            return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
@@ -95,7 +95,7 @@ public class UserController {
 
     @ApiResponse(description = "delete all users",responseCode = "200", content = @Content(schema = @Schema(implementation = void.class)))
     @DeleteMapping("/")
-    public ResponseEntity<?> deleteAllUsers(){
+    public ResponseEntity<User> deleteAllUsers(){
         userService.deleteAll();
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
@@ -108,14 +108,14 @@ public class UserController {
 
     @ApiResponse(description = "delete user",responseCode = "200", content = @Content(schema = @Schema(implementation = void.class)))
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable Long id){
-        Optional<User> userOptional = userService.findById(id);
-        if (userOptional.isPresent()){
+    public ResponseEntity<User> deleteUserById(@PathVariable Long id){
+        User userOptional = userService.findById(id);
+        if (userOptional != null){
             userService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         else{
-            return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

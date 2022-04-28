@@ -33,8 +33,14 @@ public class AddressService {
      * @param id address' id
      * @return Optional Address object
      */
-    public Optional<Address> findById(Long id){
-        return addressRepository.findById(id);
+    public Address findById(Long id){
+        Optional<Address> address = addressRepository.findById(id);
+        if (address.isPresent()){
+            return address.get();
+        }
+        else{
+            return null;
+        }
     }
 
     /**

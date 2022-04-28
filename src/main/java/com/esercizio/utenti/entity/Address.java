@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 /**
  * Entity address
@@ -26,18 +27,20 @@ public class Address {
     /**
      * Address' street
      */
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
+    @NotBlank
     public String street;
 
     /**
      * Address' cap
      */
-    @Column(length = 5, nullable = false)
+    @Column(nullable = false)
+    @NotBlank
     public String cap;
 
     /**
      * Address' street_number
      */
-    @Column(nullable = true)
+    @Column
     public Integer street_number;
 }

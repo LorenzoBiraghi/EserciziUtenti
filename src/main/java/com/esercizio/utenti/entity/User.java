@@ -1,9 +1,14 @@
 package com.esercizio.utenti.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -31,25 +36,28 @@ public class User {
     /**
      * User's firstname
      */
-    @Column(length = 25, nullable = false)
+    @Column(nullable = false)
+    @NotBlank(message = "empty")
     public String firstname;
 
     /**
      * User's lastname
      */
-    @Column(length = 25, nullable = false)
+    @Column(nullable = false)
+    @NotBlank
     public String lastname;
 
     /**
      * User's email
      */
-    @Column(length = 50, nullable = true)
+    @Column
+    @Email
     public String email;
 
     /**
      * User's telephone
      */
-    @Column(length = 10, nullable = true)
+    @Column
     public String telephone;
 
     /**

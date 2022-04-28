@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class AddressController {
      */
     @ApiResponse(description = "get addresses",responseCode = "200", content = @Content(schema = @Schema(implementation = Address.class)))
     @GetMapping("/")
-    public ResponseEntity<?> getAllAddress(){
+    public ResponseEntity<List<Address>> getAllAddress(){
         List<Address> addresses = addressService.findAll();
         return ResponseEntity.ok(addresses);
     }
@@ -43,13 +44,13 @@ public class AddressController {
      */
     @ApiResponse(description = "get address",responseCode = "200", content = @Content(schema = @Schema(implementation = Address.class)))
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAddressById(@PathVariable Long id){
-        Optional<Address> address = addressService.findById(id);
-        if(address.isPresent()){
+    public ResponseEntity<Address> getAddressById(@PathVariable Long id){
+        Address address = addressService.findById(id);
+        if(address != null){
             return ResponseEntity.ok(address);
         }
         else{
-            return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -60,7 +61,7 @@ public class AddressController {
      */
     @ApiResponse(description = "added address",responseCode = "200", content = @Content(schema = @Schema(implementation = Address.class)))
     @PostMapping("/")
-    public ResponseEntity<?> addNewAddress(@RequestBody Address address){
+    public ResponseEntity<Address> addNewAddress(@Valid @RequestBody Address address){
         addressService.save(address);
         return ResponseEntity.ok(address);
     }
@@ -73,14 +74,14 @@ public class AddressController {
      */
     @ApiResponse(description = "updated address",responseCode = "200", content = @Content(schema = @Schema(implementation = Address.class)))
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAddressByIdd(@RequestBody Address address, @PathVariable Long id){
-        Optional<Address> addressOptional = addressService.findById(id);
-        if (addressOptional.isPresent()){
+    public ResponseEntity<Address> updateAddressByIdd(@Valid @RequestBody Address address, @PathVariable Long id){
+        Address addressVerication = addressService.findById(id);
+        if(addressVerication != null){
             addressService.save(address);
             return ResponseEntity.ok(address);
         }
         else{
-            return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
@@ -91,7 +92,7 @@ public class AddressController {
      */
     @ApiResponse(description = "delete all addresses",responseCode = "200", content = @Content(schema = @Schema(implementation = void.class)))
     @DeleteMapping("/")
-    public ResponseEntity<?> deleteAllAddresses(){
+    public ResponseEntity<Address> deleteAllAddresses(){
         addressService.deleteAll();
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
@@ -103,14 +104,14 @@ public class AddressController {
      */
     @ApiResponse(description = "delete address",responseCode = "200", content = @Content(schema = @Schema(implementation = void.class)))
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAddressById(@PathVariable Long id){
-        Optional<Address> addressOptional = addressService.findById(id);
-        if (addressOptional.isPresent()){
+    public ResponseEntity<Address> deleteAddressById(@PathVariable Long id){
+        Address address = addressService.findById(id);
+        if(address != null){
             addressService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         else{
-            return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
