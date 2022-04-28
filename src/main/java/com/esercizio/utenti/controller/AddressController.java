@@ -1,13 +1,11 @@
 package com.esercizio.utenti.controller;
 
 import com.esercizio.utenti.entity.Address;
-import com.esercizio.utenti.entity.User;
-import com.esercizio.utenti.repository.AddressRepository;
+import com.esercizio.utenti.service.AddressService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,7 @@ import java.util.Optional;
 @RequestMapping("/addresses")
 public class AddressController {
     @Autowired
-    AddressRepository addresRepository;
+    AddressService addressService;
 
     /**
      * Get all addresses from database
@@ -34,7 +32,7 @@ public class AddressController {
     @ApiResponse(description = "get addresses",responseCode = "200", content = @Content(schema = @Schema(implementation = Address.class)))
     @GetMapping("/")
     public ResponseEntity<?> getAllAddress(){
-        List<Address> addresses = addresRepository.findAll();
+        List<Address> addresses = addressService.findAll();
         return ResponseEntity.ok(addresses);
     }
 
@@ -46,7 +44,7 @@ public class AddressController {
     @ApiResponse(description = "get address",responseCode = "200", content = @Content(schema = @Schema(implementation = Address.class)))
     @GetMapping("/{id}")
     public ResponseEntity<?> getAddressById(@PathVariable Long id){
-        Optional<Address> address = addresRepository.findById(id);
+        Optional<Address> address = addressService.findById(id);
         if(address.isPresent()){
             return ResponseEntity.ok(address);
         }
@@ -63,7 +61,7 @@ public class AddressController {
     @ApiResponse(description = "added address",responseCode = "200", content = @Content(schema = @Schema(implementation = Address.class)))
     @PostMapping("/")
     public ResponseEntity<?> addNewAddress(@RequestBody Address address){
-        addresRepository.save(address);
+        addressService.save(address);
         return ResponseEntity.ok(address);
     }
 
@@ -76,9 +74,9 @@ public class AddressController {
     @ApiResponse(description = "updated address",responseCode = "200", content = @Content(schema = @Schema(implementation = Address.class)))
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddressByIdd(@RequestBody Address address, @PathVariable Long id){
-        Optional<Address> addressOptional = addresRepository.findById(id);
+        Optional<Address> addressOptional = addressService.findById(id);
         if (addressOptional.isPresent()){
-            addresRepository.save(address);
+            addressService.save(address);
             return ResponseEntity.ok(address);
         }
         else{
@@ -94,7 +92,7 @@ public class AddressController {
     @ApiResponse(description = "delete all addresses",responseCode = "200", content = @Content(schema = @Schema(implementation = void.class)))
     @DeleteMapping("/")
     public ResponseEntity<?> deleteAllAddresses(){
-        addresRepository.deleteAll();
+        addressService.deleteAll();
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
@@ -106,9 +104,9 @@ public class AddressController {
     @ApiResponse(description = "delete address",responseCode = "200", content = @Content(schema = @Schema(implementation = void.class)))
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAddressById(@PathVariable Long id){
-        Optional<Address> addressOptional = addresRepository.findById(id);
+        Optional<Address> addressOptional = addressService.findById(id);
         if (addressOptional.isPresent()){
-            addresRepository.deleteById(id);
+            addressService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         else{
