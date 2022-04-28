@@ -2,6 +2,10 @@ package com.esercizio.utenti.controller;
 
 import com.esercizio.utenti.entity.User;
 import com.esercizio.utenti.repository.UserRepository;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -19,7 +23,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    @Lazy
     @Autowired
     UserRepository userRepository;
 
@@ -28,6 +31,7 @@ public class UserController {
      * @return List of User
      */
 
+    @ApiResponse(description = "get users",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @GetMapping("/")
     public ResponseEntity<?> getAllUsers(){
         List<User> users = userRepository.findAll();
@@ -40,6 +44,7 @@ public class UserController {
      * @return User with this id
      */
 
+    @ApiResponse(description = "get user",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id){
         Optional<User> user = userRepository.findById(id);
@@ -56,6 +61,8 @@ public class UserController {
      * @param user the User object you want to add
      * @return the User that you add
      */
+
+    @ApiResponse(description = "added user",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @PostMapping("/")
     public ResponseEntity<?> addNewUser(@RequestBody User user){
         userRepository.save(user);
@@ -69,6 +76,7 @@ public class UserController {
      * @return the User that you update
      */
 
+    @ApiResponse(description = "get user updated",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUserById(@RequestBody User user, @PathVariable Long id){
         Optional<User> userOptional = userRepository.findById(id);
@@ -87,6 +95,7 @@ public class UserController {
      * @return void
      */
 
+    @ApiResponse(description = "delete all users",responseCode = "200", content = @Content(schema = @Schema(implementation = void.class)))
     @DeleteMapping("/")
     public ResponseEntity<?> deleteAllUsers(){
         userRepository.deleteAll();
@@ -98,6 +107,8 @@ public class UserController {
      * @param id the user's id that you want delete
      * @return void
      */
+
+    @ApiResponse(description = "delete user",responseCode = "200", content = @Content(schema = @Schema(implementation = void.class)))
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id){
         Optional<User> userOptional = userRepository.findById(id);
