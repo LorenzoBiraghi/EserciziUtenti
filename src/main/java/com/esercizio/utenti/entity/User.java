@@ -1,14 +1,11 @@
 package com.esercizio.utenti.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -66,7 +63,7 @@ public class User {
      */
     @ManyToMany
     @JoinTable(name = "users_addresses", joinColumns =
-    @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns =
-    @JoinColumn(name = "address_id", referencedColumnName = "id"))
+        @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns =
+        @JoinColumn(name = "address_id", referencedColumnName = "id"))
     public List<Address> addresses;
 }

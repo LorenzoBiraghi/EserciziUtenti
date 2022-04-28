@@ -1,7 +1,6 @@
 package com.esercizio.utenti.service;
 
 import com.esercizio.utenti.entity.Address;
-import com.esercizio.utenti.entity.User;
 import com.esercizio.utenti.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
