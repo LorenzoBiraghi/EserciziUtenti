@@ -1,12 +1,17 @@
 package com.esercizio.utenti.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 
 /**
  * Entity user
@@ -18,6 +23,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 @Table(name = "users")
 public class User {
@@ -57,6 +63,12 @@ public class User {
     @Column
     public String telephone;
 
+    @Column(unique = true, nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
     /**
      * <p>Join many to many with table "users_addresses"</p>
      * List of User's address
@@ -66,4 +78,10 @@ public class User {
         @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns =
         @JoinColumn(name = "address_id", referencedColumnName = "id"))
     public List<Address> addresses;
+
+    @ManyToMany(fetch = EAGER)
+    @JoinTable(name = "users_roles", joinColumns =
+    @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns =
+    @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Collection<RoleAuth> roles = new ArrayList<>();
 }

@@ -1,16 +1,21 @@
 package com.esercizio.utenti.controller;
 
+import com.esercizio.utenti.entity.RoleAuth;
 import com.esercizio.utenti.entity.User;
 import com.esercizio.utenti.service.UserService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -20,6 +25,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
+@Slf4j
 public class UserController {
     @Autowired
     UserService userService;
@@ -54,6 +61,11 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<User> findByUsername(@PathVariable String username) {
+        return ResponseEntity.ok().body(userService.findByUsername(username));
+    }
+
     /**
      * Add a new User
      * @param user the User object you want to add
@@ -63,8 +75,16 @@ public class UserController {
     @ApiResponse(description = "added user",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
     @PostMapping("/")
     public ResponseEntity<User> addNewUser(@Valid @RequestBody User user){
-        userService.save(user);
-        return ResponseEntity.ok(user);
+        User userEntity = userService.save(user);
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                .buildAndExpand(userEntity.getUsername()).toUriString());
+        return ResponseEntity.created(uri).build();
+    }
+
+    @PostMapping("/{username}/addRoleToUser")
+    public ResponseEntity<?> addRoleToUser(@PathVariable String username, @RequestBody RoleAuth request) {
+        User userEntity = userService.addRoleToUser(username, request.getName());
+        return ResponseEntity.ok(userEntity);
     }
 
     /**
