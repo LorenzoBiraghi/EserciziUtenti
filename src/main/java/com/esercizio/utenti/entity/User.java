@@ -81,7 +81,7 @@ public class User {
 
     @ManyToMany(fetch = EAGER)
     @JoinTable(name = "users_roles", joinColumns =
-    @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns =
-    @JoinColumn(name = "role_id", referencedColumnName = "id"))
+        @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns =
+        @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<RoleAuth> roles = new ArrayList<>();
 }

@@ -26,19 +26,26 @@ import java.util.stream.Collectors;
  */
 public abstract class JwtUtil {
 
-    private static final int expireHourToken = 24;
-    private static final int expireHourRefreshToken = 72;
+    private static final int EXPIRE_HOUR_TOKEN = 24;
+    private static final int EXPIRE_HOUR_REFRESH_TOKEN = 72;
 
     private static final String SECRET = "FBA898697394CDBC534E7ED86A97AA59F627FE6B309E0A21EEC6C9B130E0369C";
 
 
+    /**
+     * Create Access Token
+     * @param username
+     * @param issuer
+     * @param roles
+     * @return Token
+     */
     public static String createAccessToken(String username, String issuer, List<String> roles) {
         try {
             JWTClaimsSet claims = new JWTClaimsSet.Builder()
                     .subject(username)
                     .issuer(issuer)
                     .claim("roles", roles)
-                    .expirationTime(Date.from(Instant.now().plusSeconds(expireHourToken * 3600)))
+                    .expirationTime(Date.from(Instant.now().plusSeconds(EXPIRE_HOUR_TOKEN * 3600)))
                     .issueTime(new Date())
                     .build();
 
@@ -55,11 +62,16 @@ public abstract class JwtUtil {
         }
     }
 
+    /**
+     * Create Refresh Token
+     * @param username
+     * @return Refresh Token
+     */
     public static String createRefreshToken(String username) {
         try {
             JWTClaimsSet claims = new JWTClaimsSet.Builder()
                     .subject(username)
-                    .expirationTime(Date.from(Instant.now().plusSeconds(expireHourRefreshToken * 3600)))
+                    .expirationTime(Date.from(Instant.now().plusSeconds(EXPIRE_HOUR_REFRESH_TOKEN * 3600)))
                     .build();
 
             Payload payload = new Payload(claims.toJSONObject());
@@ -75,6 +87,14 @@ public abstract class JwtUtil {
         }
     }
 
+    /**
+     * Authentication Token
+     * @param token
+     * @return Token for User
+     * @throws JOSEException
+     * @throws ParseException
+     * @throws BadJOSEException
+     */
     public static UsernamePasswordAuthenticationToken parseToken(String token) throws JOSEException, ParseException,
             BadJOSEException {
 

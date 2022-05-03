@@ -61,6 +61,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Find a user by Username
+     * @param username
+     * @return User with this Username
+     */
     @GetMapping("/{username}")
     public ResponseEntity<User> findByUsername(@PathVariable String username) {
         return ResponseEntity.ok().body(userService.findByUsername(username));
@@ -81,6 +86,12 @@ public class UserController {
         return ResponseEntity.created(uri).build();
     }
 
+    /**
+     * Add to a user a Role
+     * @param username
+     * @param request
+     * @return User object
+     */
     @PostMapping("/{username}/addRoleToUser")
     public ResponseEntity<?> addRoleToUser(@PathVariable String username, @RequestBody RoleAuth request) {
         User userEntity = userService.addRoleToUser(username, request.getName());

@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 public class RoleAuthService {
     private final RoleAuthRepository roleJpaRepository;
 
+    /**
+     * Save in Database a Role
+     * @param roleEntity
+     * @return Object saved
+     */
     public RoleAuth save(RoleAuth roleEntity) {
         log.info("Saving role {} to the database", roleEntity.getName());
         return roleJpaRepository.save(roleEntity);

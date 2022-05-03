@@ -8,15 +8,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "Users API", version = "1.0", description = "Users Information"))
 public class UtentiApplication {
+    /**
+     * Main
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(UtentiApplication.class, args);
     }
 
+    /**
+     * Method for encode passwords
+     * @return Password encoded
+     */
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

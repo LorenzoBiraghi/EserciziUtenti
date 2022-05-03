@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
+public class UserService implements UserDetailsService {
     private static final String USER_NOT_FOUND_MESSAGE = "User with username %s not found";
 
     private final RoleAuthRepository roleJpaRepository;
@@ -60,6 +61,11 @@ public class UserService {
 
     }
 
+    /**
+     * Find a user by Username
+     * @param username
+     * @return User with this Username
+     */
     public User findByUsername(String username){
         return userRepository.findByUsername(username);
     }
@@ -67,6 +73,7 @@ public class UserService {
     /**
      * Save a object User
      * @param user Object user
+     * @return user object saved
      */
 
     public User save(User user){
@@ -76,6 +83,12 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Add to a user a Role
+     * @param username
+     * @param roleName
+     * @return User object
+     */
     public User addRoleToUser(String username, String roleName){
         log.info("Adding role {} to user {}", roleName, username);
         User userEntity = userRepository.findByUsername(username);
@@ -100,8 +113,12 @@ public class UserService {
     }
 
 
-
-
+    /**
+     * Login by Username
+     * @param username
+     * @return User security object
+     * @throws UsernameNotFoundException
+     */
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
