@@ -64,10 +64,10 @@ public class User {
     public String telephone;
 
     @Column(unique = true, nullable = false)
-    private String username;
+    public String username;
 
     @Column(nullable = false)
-    private String password;
+    public String password;
 
     /**
      * <p>Join many to many with table "users_addresses"</p>
@@ -83,5 +83,5 @@ public class User {
     @JoinTable(name = "users_roles", joinColumns =
         @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns =
         @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<RoleAuth> roles = new ArrayList<>();
+    public Collection<RoleAuth> roles = new ArrayList<>();
 }
