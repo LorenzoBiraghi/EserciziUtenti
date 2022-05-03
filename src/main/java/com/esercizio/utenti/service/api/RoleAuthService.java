@@ -1,4 +1,4 @@
-package com.esercizio.utenti.service;
+package com.esercizio.utenti.service.api;
 
 import com.esercizio.utenti.entity.RoleAuth;
 import com.esercizio.utenti.repository.RoleAuthRepository;

@@ -1,4 +1,4 @@
-package com.esercizio.utenti.service;
+package com.esercizio.utenti.service.api;
 
 import com.esercizio.utenti.entity.RoleAuth;
 import com.esercizio.utenti.entity.User;
@@ -120,6 +120,7 @@ public class UserService implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     @Transactional(readOnly = true)
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if(user == null) {

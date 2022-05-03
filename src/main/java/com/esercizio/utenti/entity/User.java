@@ -1,5 +1,6 @@
 package com.esercizio.utenti.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -67,6 +68,7 @@ public class User {
     public String username;
 
     @Column(nullable = false)
+    @JsonIgnore
     public String password;
 
     /**

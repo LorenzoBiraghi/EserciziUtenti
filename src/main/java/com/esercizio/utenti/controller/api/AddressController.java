@@ -1,7 +1,7 @@
-package com.esercizio.utenti.controller;
+package com.esercizio.utenti.controller.api;
 
 import com.esercizio.utenti.entity.Address;
-import com.esercizio.utenti.service.AddressService;
+import com.esercizio.utenti.service.api.AddressService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

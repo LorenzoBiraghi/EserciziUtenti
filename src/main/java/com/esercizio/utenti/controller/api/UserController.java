@@ -1,8 +1,8 @@
-package com.esercizio.utenti.controller;
+package com.esercizio.utenti.controller.api;
 
 import com.esercizio.utenti.entity.RoleAuth;
 import com.esercizio.utenti.entity.User;
-import com.esercizio.utenti.service.UserService;
+import com.esercizio.utenti.service.api.UserService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * @author lorenzoBiraghi
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
@@ -50,7 +51,7 @@ public class UserController {
      */
 
     @ApiResponse(description = "get user",responseCode = "200", content = @Content(schema = @Schema(implementation = User.class)))
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id){
         User user = userService.findById(id);
         if(user != null){
@@ -66,7 +67,8 @@ public class UserController {
      * @param username
      * @return User with this Username
      */
-    @GetMapping("/{username}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/username/{username}")
     public ResponseEntity<User> findByUsername(@PathVariable String username) {
         return ResponseEntity.ok().body(userService.findByUsername(username));
     }
